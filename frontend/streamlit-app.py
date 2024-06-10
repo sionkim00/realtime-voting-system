@@ -74,7 +74,9 @@ def split_frame(input_df, rows):
 def paginate_table(table_data):
     top_menu = st.columns(3)
     with top_menu[0]:
-        sort = st.radio("Sort Data", options=["Yes", "No"], horizontal=True, index=1)
+        sort = st.radio(
+            "Sort Data", options=["Yes", "No"], key="sort", horizontal=True, index=1
+        )
     if sort == "Yes":
         with top_menu[1]:
             sort_field = st.selectbox("Sort By", options=table_data.columns)

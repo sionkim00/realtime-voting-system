@@ -28,6 +28,6 @@ if __name__ == "__main__":
                 db_queries.insert_candidate_data(conn, cur, candidate)
 
         # Generate voter data
-        db_queries.generate_voter_datas(conn, cur, producer, 20)
+        db_queries.generate_voter_datas(conn, cur, producer, 1000)
     except Exception as e:
         print(f"Error (Postgres connection error): {e}")
