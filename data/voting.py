@@ -1,4 +1,5 @@
 import random
+import time
 from datetime import datetime
 
 import psycopg2
@@ -95,6 +96,8 @@ if __name__ == "__main__":
 
                 except Exception as e:
                     print(f"Error (Postgres): {e}")
+
+            time.sleep(1)
 
     except Exception as e:
         print(f"Error (Kafka): {e}")
