@@ -11,7 +11,7 @@ def delivery_report(err, msg):
 # Produce the voter data to Kafka
 def produce_voter_data(producer, voter_data):
     producer.produce(
-        "voter-data",
+        "voters_topic",
         key=voter_data["voter_id"],
         value=json.dumps(voter_data),
         on_delivery=delivery_report,
