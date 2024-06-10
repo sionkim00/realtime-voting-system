@@ -1,7 +1,8 @@
 import random
 
-import kafka
 import requests
+
+from . import kafka
 
 BASE_URL = "https://randomuser.me/api/?nat=us"
 PARTIES = ["Republican", "Democrat", "Independent"]
@@ -32,7 +33,7 @@ def create_tables(conn, cur):
             date_of_birth DATE,
             gender VARCHAR(255),
             nationality VARCHAR(255),
-            registeration_number VARCHAR(255),
+            registration_number VARCHAR(255),
             address_street VARCHAR(255),
             address_city VARCHAR(255),
             address_state VARCHAR(255),
@@ -108,7 +109,6 @@ def generate_voter_datas(conn, cur, producer, voter_number):
     for i in range(voter_number):
         voter_data = generate_voter_data()
         insert_voters_data(conn, cur, voter_data)
-
         # Produce the voter data to Kafka
         kafka.produce_voter_data(producer, voter_data)
 
@@ -128,7 +128,7 @@ def generate_voter_data():
             "date_of_birth": voter["dob"]["date"],
             "gender": voter["gender"],
             "nationality": voter["nat"],
-            "registeration_number": voter["login"]["username"],
+            "registration_number": voter["login"]["username"],
             "address": {
                 "street": f"{voter["location"]["street"]["number"]} {voter['location']['street']['name']}",
                 "city": voter["location"]["city"],
@@ -144,10 +144,11 @@ def generate_voter_data():
 
 
 def insert_voters_data(conn, cur, voter_data):
+    print(voter_data["address"])
     cur.execute(
         """
-        INSERT INTO voters(voter_id, voter_name, date_of_birth, gender, nationality, registeration_number, address_street, address_city, address_state, address_country, address_postcode, email, phone_number, picture, registered_age)
-        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO voters(voter_id, voter_name, date_of_birth, gender, nationality, registration_number, address_street, address_city, address_state, address_country, address_postcode, email, phone_number, picture, registered_age)
+        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """,
         (
             voter_data["voter_id"],
@@ -155,7 +156,7 @@ def insert_voters_data(conn, cur, voter_data):
             voter_data["date_of_birth"],
             voter_data["gender"],
             voter_data["nationality"],
-            voter_data["registeration_number"],
+            voter_data["registration_number"],
             voter_data["address"]["street"],
             voter_data["address"]["city"],
             voter_data["address"]["state"],
@@ -167,3 +168,5 @@ def insert_voters_data(conn, cur, voter_data):
             voter_data["registered_age"],
         ),
     )
+
+    conn.commit()
