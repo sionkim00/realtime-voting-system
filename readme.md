@@ -3,6 +3,7 @@
 ### Kafka Broker
 
 - `kafka-topics --list --bootstrap-server broker:29092`: get list of topics
+- `kafka-console-consumer --topic voters_topic --bootstrap-server broker:29092`
 
 ### Postgres
 
