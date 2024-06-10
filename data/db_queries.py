@@ -2,7 +2,7 @@ import random
 
 import requests
 
-from . import kafka
+from ..functions import kafka
 
 BASE_URL = "https://randomuser.me/api/?nat=us"
 PARTIES = ["Republican", "Democrat", "Independent"]
